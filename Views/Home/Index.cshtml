@@ -1,0 +1,203 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+body 
+    {
+        background-image: url('/images/pexels-photo-1323712.jpeg');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    #mainHeading, #nextBlock{
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    feature-section{
+        flex: 1;
+        margin-right: 0;
+    }
+
+    /* From Uiverse.io by liyaxu123 */
+    .form-control
+    {
+    position: relative;
+    margin: 20px 0 40px;
+    width: 190px;
+    }
+
+.form-control input 
+{
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px #fff solid;
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    color: #fff;
+}
+
+    .form-control input:focus,
+    .form-control input:valid 
+    {
+        outline: 0;
+        border-bottom-color: lightblue;
+    }
+
+.form-control label 
+{
+    position: absolute;
+    top: 15px;
+    left: 0;
+    pointer-events: none;
+}
+
+    .form-control label span 
+    {
+        display: inline-block;
+        font-size: 18px;
+        min-width: 5px;
+        color: #fff;
+        transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+.form-control input:focus + label span,
+.form-control input:valid + label span 
+{
+    color: lightblue;
+    transform: translateY(-30px);
+}
+.card{
+    margin:20px auto;
+    padding: 20px;
+    max-width: 300px;
+}
+
+.card-title{
+    margin-bottom: 15px;
+    color: #000000;
+}
+
+    </style>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="~/css/form-control.css" asp-append-version="true" />
+<div id="mainHeading" class="text-center">
+
+
+    <h4 class="display-4">ABC Retailers</h4>
+    <p>Welcome to the Homepage of ABC Retailers.</p>
+
+</div>
+<div>
+<h1>Customer Profile Details</h1>
+<form asp-action="addCustomer" method="post">
+
+    <input type="text" class="form-control" name="Name" placeholder="Name" required />
+    <input type="email" class="form-control" name="Email" placeholder="example@gmail.com" required />
+    <button type="submit" class="btn btn-primary">Submit Customer Details</button>
+   
+</form>
+</div>
+<br />
+<h2>Process Order</h2>
+<form asp-action="processOrder" method="post">
+    <div class="form-group">
+        <label for="orderDetails">Order Details:</label>
+        <input  type="number" class="form-control" name="orderId" placeholder="Order Id" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Process Order</button>
+</form>
+<br />
+
+
+
+    <div class="card2">
+        <h1 class="card-title">Upload an Image</h1>
+        <form asp-action="uploadImage" method="post" enctype="multipart/form-data">
+            <input type="file" class="form-control-file" name="file"  required />
+            <button type="submit" class="btn btn-primary">Upload Image</button>
+        </form>
+
+    </div>
+    <br/>
+<br />
+<form asp-action="uploadContract" enctype="multipart/form-data" method="post">
+    <h1>Upload a file(contract,etc.)</h1>
+    <input type="file" class="form-control-file" id="file" name="file" accept=".pdf,.doc,.docx,.txt" required>
+    <button type="submit" class="btn btn-primary">Upload File</button>
+</form>
+
+<div id="nextBlock">
+
+
+
+    <br />
+    
+
+    <div class="card" style="width: 18rem;">
+        <div class="form-control">
+
+            <form asp-action="addProduct" method="post">
+                <p>Product Information</p>
+                <input type="text" class="form-control" name="name" placeholder="Name" required>
+                
+                <input type="text" class="form-control" name="price" placeholder="Price" required>
+                
+                <input type="number" class="form-control" name="StockQuantity" placeholder="StockQuantity" required>
+                
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="form-control">
+    <h2>Add Log Entry</h2>
+    <form asp-action="uploadLog" method="post">
+        
+            
+            <input type="text" class="form-control" id="logContent" name="logContent" required/>
+        
+        <button type="submit" class="btn btn-primary">Add Log Entry</button>
+    </form>
+    </div>
+
+    <br />
+
+    <button id="testDatabaseConnection">Test Database Connection</button>
+    <div id="connectionResult"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#testDatabaseConnection').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("TestDatabaseConnection", "Home")',
+                    success: function (result) {
+                        $('#connectionResult').text(result);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#connectionResult').text('An error occurred: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</div>
+
