@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PoeSem2.Models;
+using CldDev6212.Poe.Models;
 using Microsoft.Extensions.Configuration;
 using CldDev6212.Poe.AzServices;
 

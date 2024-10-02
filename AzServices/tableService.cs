@@ -1,5 +1,5 @@
 ﻿using Azure.Data.Tables;
-using PoeSem2.Models;
+using CldDev6212.Poe.Models;
 using System.Threading.Tasks;
 
 namespace CldDev6212.Poe.AzServices
@@ -12,7 +12,7 @@ namespace CldDev6212.Poe.AzServices
         {
             var connectionString = configuration["AzureStorage:ConnectionString"];
             var serviceClient = new TableServiceClient(connectionString);
-            _tableClient = serviceClient.GetTableClient("CustomerProfiles");
+            _tableClient = serviceClient.GetTableClient("CustomerProfile");
             _tableClient.CreateIfNotExists();
         }
 
