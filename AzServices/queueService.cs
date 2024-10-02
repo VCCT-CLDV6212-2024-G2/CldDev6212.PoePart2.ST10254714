@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Queues;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace CldDev6212.Poe.AzServices
 {
