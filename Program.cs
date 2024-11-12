@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Azure.Functions.Worker;
 using CldDev6212.Poe.AzServices;
+using CldDev6212.St10254714.Poe.S2.Models;
 
 namespace prrgrm
 {
@@ -38,12 +39,14 @@ namespace prrgrm
             var builder = WebApplication.CreateBuilder(args);
         // Add services to the container.
         builder.Services.AddControllersWithViews();
-        /*
-        builder.Services.AddScoped<blobStorage>();
-        builder.Services.AddScoped<tableService>();
-        builder.Services.AddScoped<queueService>();
-        builder.Services.AddScoped<fileService>();
-        */
+            builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+            /*
+            builder.Services.AddScoped<blobStorage>();
+            builder.Services.AddScoped<tableService>();
+            builder.Services.AddScoped<queueService>();
+            builder.Services.AddScoped<fileService>();
+            */
+        builder.Services.AddSingleton<userTable>();
         builder.Services.AddSingleton<tableService>();
         builder.Services.AddSingleton<blobStorage>();
         builder.Services.AddSingleton<fileService>();

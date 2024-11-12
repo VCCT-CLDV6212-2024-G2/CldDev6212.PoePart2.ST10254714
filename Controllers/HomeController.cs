@@ -6,6 +6,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Azure.Storage;
+using CldDev6212.St10254714.Poe.S2.Models;
+using CldDev6212.Poe.Models;
 ///////////////////////////////////////////////////////////////
 ///                 references:
 ///                 www.Claude.ai
@@ -21,6 +23,9 @@ namespace CldDev6212.Poe.Controllers
     public class HomeController : Controller
     {
         //private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
+        //private readonly ITableService _tableService_;
+            private readonly userTable _userTable;
 
             private readonly blobStorage _blobStorage;
             private readonly tableService _tableService;
@@ -30,8 +35,11 @@ namespace CldDev6212.Poe.Controllers
 
 
 
-            public HomeController(blobStorage blobStorage, tableService tableService, queueService queueService, fileService fileService)
+            public HomeController(IConfiguration configuration, userTable userTable, blobStorage blobStorage, tableService tableService, queueService queueService, fileService fileService)
             {
+            
+                _configuration = configuration;
+                _userTable = userTable;
                 _blobStorage = blobStorage;
                 _tableService = tableService;
                 _queueService = queueService;
@@ -47,10 +55,24 @@ namespace CldDev6212.Poe.Controllers
 
             public async Task<IActionResult> addCustomer(CustomerProfile profile)
             {
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
+            {
+                await _tableService.AddEntityAsync(profile);
+                var userTableInstance = new userTable(_configuration)
                 {
-                    await _tableService.AddEntityAsync(profile);
+                    userName = profile.Name,
+                    userEmail = profile.Email
+                };
+                try
+                {
+                    int rowsAffected = _userTable.insert_User(userTableInstance);
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine("Success");
+                    }
                 }
+                catch (Exception ex) { Console.WriteLine(ex); }
+            }
                 return RedirectToAction("Index");
                 
             }
